@@ -1,0 +1,37 @@
+.delay {
+	color: #FF0000;
+}
+
+.rnvheader {
+	text-align: left;
+}
+
+.lineinfo {
+	text-align: right;
+	padding: 0px 5px 0px 5px;
+}
+
+.timeinfo {
+	padding: 0px 5px 0px 5px;
+	text-align: left;
+}
+
+.destinationinfo {
+	padding: 0px 5px 0px 5px;
+	text-align: left;
+}
+
+.MMMheader {
+	background-color: #FFFFFF;
+	color: #000000;
+	text-align: center;
+
+}
+
+table {
+	border: 1px dashed red;
+}
+td  {
+	border: 1px dashed blue;
+	padding: 10px;
+}
