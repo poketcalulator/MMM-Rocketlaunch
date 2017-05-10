@@ -12,13 +12,22 @@ Module.register('MMM-Rocketlaunch',{
 	defaults: {
 		units: config.units,
 		animationSpeed: 1000,
-		refreshInterval: 1000 * 15, //refresh every minute
+		refreshInterval: 1000 * 60, //refresh every minute
 		updateInterval: 1000 * 3600, //update every hour
 		timeFormat: config.timeFormat,
 		lang: config.language,
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 2500,
-		apiBase: 'https://launchlibrary.net/1.2/launch?next=1&mode=verbose',
+		apiBase: 'https://launchlibrary.net/1.2/launch?next=2&mode=verbose',
+
+		//  status	Integer (1 Green, 2 Red, 3 Success, 4 Failed)
+
+		iconTable: {
+			"1": "fa fa-thumbs-up",
+			"2": "fa fa-thumbs-down",
+			"3": "fa fa-rocket",
+			"4": "fa fa-exclamation-triangle"
+		},
 
 
 	},
@@ -54,78 +63,158 @@ Module.register('MMM-Rocketlaunch',{
 		}
 
 
-
-
-
-		/*
-		var lineHeader = document.createElement("th");
-		lineHeader.innerHTML = "Linie";
-		lineHeader.className = "rnvheader";
-		lineHeader.colSpan = 2;
-		row.appendChild(lineHeader);
-
-		var destinationHeader = document.createElement("th");
-		destinationHeader.innerHTML = "Fahrtrichtung";
-		destinationHeader.className = "rnvheader";
-		row.appendChild(destinationHeader);
-		table.appendChild(row);
-		*/
-
-		// Tabel start
-		var table = document.createElement("table");
-		// table.id = "rltable";
-		// table.className = "small thin light";
-
 		// For each rocket launche
 		for (var i in this.targetlaunche) {
+
 			var currentLaunche = this.targetlaunche[i];
 
+			// Create table
+			var table = document.createElement("table");
+			table.className = "small thin light"; // deco
 
+			table.style.width = "500px";
 
-			// Header
-			rowHD = table.insertRow();  // DOM method for creating table rows
-	 		rowHD.insertCell().textContent = moment(currentLaunche.windowstart).format("D MMM");
-	 		rowHD.insertCell().textContent = currentLaunche.rocketname + " / " + currentLaunche.rocketconfig;
-			rowHD.insertCell().textContent = currentLaunche.status;
+				// 1th row
+				var row = document.createElement("tr");
 
-			// Launche Windows start
-			rowSTA = table.insertRow();
-			rowSTA.insertCell().textContent = "Launche Windowstart:";
-			rowSTA.insertCell().textContent = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss");
-			rowSTA.colSpan = 2;
+					// Header row 1, cell 1 - date
+					var DateHeader = document.createElement("th");
+					DateHeader.innerHTML = moment(currentLaunche.windowstart).format("D MMM");
+					DateHeader.className = "darkgraycell";
+					row.appendChild(DateHeader);
 
-			// Launche Windows
-			rowEND = table.insertRow();
-			rowEND.insertCell().textContent = "Launche Windowend:";
-			rowEND.insertCell().textContent = moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
-			rowEND.colSpan = 2;
+					// Header row 1, cell 2 - rocketname
+					var rnHeader = document.createElement("th");
+					rnHeader.innerHTML = currentLaunche.rocketname;
+					rnHeader.className = "grayheader";
+					row.appendChild(rnHeader);
 
-			// Launchsite
-			rowSITE = table.insertRow();
-			rowSITE.insertCell().textContent = "Launche Site:";
-			rowSITE.insertCell().textContent = currentLaunche.launchsite;
-			rowSITE.colSpan = 2;
+					// Header row 1, cell 3 - status
+					var statusHeader = document.createElement("th");
+					statusHeader.className = this.config.iconTable[currentLaunche.status];
+					// statusHeader.className = "grayheader";
+					row.appendChild(statusHeader);
 
-			// Mission info
-			rowMIS = table.insertRow();
-			rowMIS.insertCell().textContent = "Mission: " + currentLaunche.missiondesc;
-			rowMIS.colSpan = 3;
+				table.appendChild(row);
 
+					// row 2
+					var row = document.createElement("tr");
+					table.appendChild(row);
 
-			/*
+					// row 2, cell 1 - Launche Windowstart label
+					var lwslcell = document.createElement("td");
+					lwslcell.innerHTML = "Windowstart:";
+					lwslcell.className = "Lable";
+					row.appendChild(lwslcell);
 
-			console.log(moment(currentLaunche.windowstart).format("D MMM"));
+					// row 2, cell 2 - Launche Windowstart time
+					var lwstcell = document.createElement("td");
+					lwstcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss");
+					lwstcell.colSpan = 2;
+					lwstcell.className = "dimmed light small";
+					row.appendChild(lwstcell);
+					table.appendChild(row);
 
-			// Local vs UTC time
-			// console.log(moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss") + " / " + moment.utc(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss"));
+			// row 3
+			var row = document.createElement("tr");
+			table.appendChild(row);
 
+				// row 3, cell 1 - Launche Windowend label
+				var lwelcell = document.createElement("td");
+				lwelcell.innerHTML = "Windowend:";
+				lwelcell.className = "Lable";
+				row.appendChild(lwelcell);
 
-*/
+				// row 3, cell 2 - Launche Windowend time
+				var lwedcell = document.createElement("td");
+				lwedcell.innerHTML = moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
+				lwedcell.colSpan = 2;
+				lwedcell.className = "dimmed light small";
+				row.appendChild(lwedcell);
 
+				// row 4
+				var row = document.createElement("tr");
+				table.appendChild(row);
 
+					// row 4, cell 1 - launchsite label
+					var lslcell = document.createElement("td");
+					lslcell.innerHTML = "Site:";
+					lslcell.className = "Lable";
+					row.appendChild(lslcell);
+
+					// row 4, cell 2 - launchsite data
+					var lsdcell = document.createElement("td");
+					lsdcell.innerHTML = currentLaunche.launchsite;
+					lsdcell.colSpan = 2;
+					lsdcell.className = "dimmed light small";
+					row.appendChild(lsdcell);
+
+				// row 5
+				var row = document.createElement("tr");
+				table.appendChild(row);
+
+						// row 5, cell 1 - configuration label
+						var rclcell = document.createElement("td");
+						rclcell.innerHTML = "Rocket Config:";
+						rclcell.className = "Lable";
+						row.appendChild(rclcell);
+
+						// row 5, cell 2 - configuration data
+						var rcdcell = document.createElement("td");
+						rcdcell.innerHTML = currentLaunche.rocketconfig;
+						rcdcell.colSpan = 2;
+						rcdcell.className = "dimmed light small";
+						row.appendChild(rcdcell);
+
+				// row 6
+				var row = document.createElement("tr");
+				table.appendChild(row);
+
+						// row 6, cell 1 - mission name label
+						var mnlcell = document.createElement("td");
+						mnlcell.innerHTML = "Mission Name:";
+						mnlcell.className = "Lable";
+						row.appendChild(mnlcell);
+
+						// row 6, cell 2 - mission name data
+						var mndcell = document.createElement("td");
+						mndcell.innerHTML = currentLaunche.payloadname;
+						mndcell.colSpan = 2;
+						mndcell.className = "dimmed light small";
+						row.appendChild(mndcell);
+
+				// row 7
+				var row = document.createElement("tr");
+				table.appendChild(row);
+
+						// row 7, cell 1 - mission type label
+						var mtlcell = document.createElement("td");
+						mtlcell.innerHTML = "Mission Type:";
+						mtlcell.className = "Lable";
+						row.appendChild(mtlcell);
+
+						// row 7, cell 2 - mission type data
+						var mtdcell = document.createElement("td");
+						mtdcell.innerHTML = currentLaunche.payloadtype;
+						mtdcell.colSpan = 2;
+						mtdcell.className = "dimmed light small";
+						row.appendChild(mtdcell);
+
+				// row 8
+				var row = document.createElement("tr");
+				table.appendChild(row);
+
+						// row 8, cell 1 - mission description data
+						var mddcell = document.createElement("td");
+						mddcell.innerHTML = currentLaunche.missiondesc + "<br><br>";
+						mddcell.colSpan = 3;
+						mddcell.className = "dimmed light small";
+						row.appendChild(mddcell);
+
+				wrapper.appendChild(table);
 		}
-		wrapper.appendChild(table);
 
+		wrapper.appendChild(table);
 
 		return wrapper;
 	},
@@ -153,7 +242,7 @@ Module.register('MMM-Rocketlaunch',{
 
 			this.targetlaunche.push({
 				rocketname: r.rocket.familyname,
-				rocketconfig: r.rocket.configuration,
+				rocketconfig: r.rocket.name,
 				payloadname: r.missions[0].name,
 				payloadtype: r.missions[0].typeName,
 				missiondesc: r.missions[0].description,
@@ -161,7 +250,6 @@ Module.register('MMM-Rocketlaunch',{
 				windowstart: r.isostart,
 				windowend: r.isoend,
 				status: r.status,
-				probability: r.probability,
 			});
 		}
 		return;
