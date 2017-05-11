@@ -1,37 +1,13 @@
-table {
-	width: 200px;
-	padding: 0px 5px 5px 5px;
-		/* border: 1px dashed red; */
-}
-.darkgraycell{font-weight:bold;background-color:#343434;color:#ffffff;text-align:center;vertical-align:top}
-
-.grayheader{font-weight:bold;text-align:center;}
-
-.Lable{font-weight:bold;color:#ffffff;text-align: left;vertical-align:top}
-
-
-.delay {
-	color: #FF0000;
+.MMM-Rocketlaunch {
+    width : 420px;
+		padding: 10px 10px 10px 10px;
 }
 
-.rnvheader {
-	text-align: left;
+.rheader {
+	font-weight:bold;
+	text-align:left
 }
 
-.lineinfo {
-	text-align: right;
-	padding: 0px 5px 0px 5px;
-}
-
-.timeinfo {
-	padding: 0px 5px 0px 5px;
-	text-align: left;
-}
-
-.destinationinfo {
-	padding: 0px 5px 0px 5px;
-	text-align: left;
-}
 
 
 
