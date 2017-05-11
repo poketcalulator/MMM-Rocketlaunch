@@ -19,7 +19,7 @@ Module.register('MMM-Rocketlaunch',{
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 1000,
 		apiBase: 'https://launchlibrary.net/1.2/launch?next=4&mode=verbose',
-		missionlong: 1,
+		missiondesc: true,
 
 		//  status	Integer (1 Green, 2 Red, 3 Success, 4 Failed)
 		statusTable: {
@@ -28,7 +28,6 @@ Module.register('MMM-Rocketlaunch',{
 			"3": "Launch Success",
 			"4": "Launch Failed!"
 		},
-
 
 	},
 
@@ -77,24 +76,24 @@ Module.register('MMM-Rocketlaunch',{
 
 			var currentLaunche = this.targetlaunche[i];
 
-			// Create table
+			// ## Create table ##
 			var table = document.createElement("table");
 			table.className = "small thin light";
 
-					// row 1
+					// Add row 1
 					var row = document.createElement("tr");
 					table.appendChild(row);
 
 					// row 1, cell 1 rocketname and config label
-					var lwslcell = document.createElement("td");
-					lwslcell.className = "fa fa-rocket";
-					//lwslcell.className = "title bright";
+					var lwslcell = document.createElement("th");
+					lwslcell.innerHTML = "<i class='fa fa-rocket' aria-hidden='true'></i>";
+					lwslcell.className = "rhicon";
 					row.appendChild(lwslcell);
 
 					// row 1, cell 2 rocketname and config
-					var lwstcell = document.createElement("td");
-					lwstcell.innerHTML = currentLaunche.rocketconfig
-					lwstcell.className = "rheader";
+					var lwstcell = document.createElement("th");
+					lwstcell.innerHTML = moment(currentLaunche.windowstart).format("D MMM") + " - " + currentLaunche.rocketconfig
+					lwstcell.className = "rhtext";
 					row.appendChild(lwstcell);
 
 					table.appendChild(row);
@@ -105,8 +104,8 @@ Module.register('MMM-Rocketlaunch',{
 
 				// Launche Window start / end label
 				var lwelcell = document.createElement("td");
-				lwelcell.className = "fa fa-clock-o";
-				// lwelcell.className = "title bright";
+				lwelcell.innerHTML = "<i class='fa fa-clock-o' aria-hidden='true'></i>";
+				lwelcell.className = "ricon";
 				row.appendChild(lwelcell);
 
 				// Launche Window start / end data
@@ -114,42 +113,76 @@ Module.register('MMM-Rocketlaunch',{
 				lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss")
 						+ " <i class='fa fa-arrows-h' aria-hidden='true'></i> "
 						+ moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
-
-				// lwedcell.className = "time light";
+				lwedcell.className = "rtext";
 				row.appendChild(lwedcell);
 
 				// row 4
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
-					// row 4, cell 1 - launchsite label
+					// Launchsite icon
 					var lslcell = document.createElement("td");
-					lslcell.className = "fa fa-globe";
-					// lslcell.className = "title bright";
+					lslcell.innerHTML = "<i class='fa fa-globe' aria-hidden='true'></i>";
+					lslcell.className = "ricon";
 					row.appendChild(lslcell);
 
-					// row 4, cell 2 - launchsite data
+					// Launchsite data
 					var lsdcell = document.createElement("td");
 					lsdcell.innerHTML = currentLaunche.launchsite;
-					lsdcell.colSpan = 2;
-					// lsdcell.className = "time light";
+					lsdcell.className = "rtext";
 					row.appendChild(lsdcell);
+
+					// row 4AA
+					var row = document.createElement("tr");
+					table.appendChild(row);
+
+						// Launchpad icon
+						var lslcell = document.createElement("td");
+						lslcell.innerHTML = "<i class='fa fa-map-marker' aria-hidden='true'></i>";
+						lslcell.className = "ricon";
+						row.appendChild(lslcell);
+
+						// Launchpad data
+						var lsdcell = document.createElement("td");
+						lsdcell.innerHTML = currentLaunche.launchpad;
+						lsdcell.className = "rtext";
+						row.appendChild(lsdcell);
+
+						// row 4BB
+						var row = document.createElement("tr");
+						table.appendChild(row);
+
+							//  Agencies icon
+							var lslcell = document.createElement("td");
+							lslcell.innerHTML = "<i class='fa fa-sitemap' aria-hidden='true'></i>";
+							lslcell.className = "ricon";
+							row.appendChild(lslcell);
+
+							// Agencies data
+							var agencietext = "";
+							var lsdcell = document.createElement("td");
+							for (var a in currentLaunche.agencies) {
+								var currentAgencie = currentLaunche.agencies[a];
+								var agencietext = agencietext + currentAgencie.name + "<br>";
+							}
+							lsdcell.innerHTML = agencietext;
+							lsdcell.className = "rtext";
+							row.appendChild(lsdcell);
 
 				// row 5
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
-						// Status label
+						// Status icon
 						var rclcell = document.createElement("td");
-						rclcell.className = "fa fa-check-square-o";
-						// rclcell.className = "title bright";
+						rclcell.innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>";
+						rclcell.className = "ricon";
 						row.appendChild(rclcell);
 
 						// Status data
 						var rcdcell = document.createElement("td");
 						rcdcell.innerHTML = this.config.statusTable[currentLaunche.status];
-						// rcdcell.colSpan = 2;
-						// rcdcell.className = "time light";
+						rcdcell.className = "rtext";
 						row.appendChild(rcdcell);
 
 				// row 6
@@ -158,31 +191,36 @@ Module.register('MMM-Rocketlaunch',{
 
 						// mission name label
 						var mnlcell = document.createElement("td");
-						// mnlcell.innerHTML = "Mission Name:";
-						mnlcell.className = "fa fa-info";
+						mnlcell.innerHTML = "<i class='fa fa-info-circle' aria-hidden='true'></i>";
+						mnlcell.className = "ricon";
 						row.appendChild(mnlcell);
 
 						// row 6, cell 2 - mission name data
 						var mndcell = document.createElement("td");
-						mndcell.innerHTML = currentLaunche.payloadname + " (" + currentLaunche.payloadtype + " payload)<br><br>";
-						// mndcell.colSpan = 2;
-						// mndcell.className = "time light";
+						mndcell.innerHTML = currentLaunche.payloadname + " (" + currentLaunche.payloadtype + " payload)";
+						mndcell.className = "rtext";
 						row.appendChild(mndcell);
 
-/*
+console.log(this.config.missiondesc);
 				// row 8
-				//if (this.config.mission == 1) {
+				if (this.config.missiondesc) {
+
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
-						// row 8, cell 1 - mission description data
+						// Missions description icon
+						var mdicell = document.createElement("td");
+						mdicell.innerHTML = "<i class='fa fa-file-text' aria-hidden='true'></i>";
+						mdicell.className = "ricon";
+						row.appendChild(mdicell);
+
+						// Missions description data
 						var mddcell = document.createElement("td");
-						mddcell.innerHTML = currentLaunche.missiondesc + "<br><br>";
-						mddcell.colSpan = 2;
-						// mddcell.className = "time light";
+						mddcell.innerHTML = currentLaunche.missiondesc;
+						mddcell.className = "rtext";
 						row.appendChild(mddcell);
-				// }
-*/
+				}
+
 				wrapper.appendChild(table);
 		}
 
@@ -210,7 +248,9 @@ Module.register('MMM-Rocketlaunch',{
 				payloadname: r.missions[0].name,
 				payloadtype: r.missions[0].typeName,
 				missiondesc: r.missions[0].description,
-				launchsite: r.location.pads[0].name,
+				launchsite: r.location.name,
+				launchpad: r.location.pads[0].name,
+				agencies: r.location.pads[0].agencies,
 				windowstart: r.isostart,
 				windowend: r.isoend,
 				status: r.status,
