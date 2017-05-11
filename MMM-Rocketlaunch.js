@@ -18,8 +18,8 @@ Module.register('MMM-Rocketlaunch',{
 		lang: config.language,
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 1000,
-		apiBase: 'https://launchlibrary.net/1.2/launch?next=4&mode=verbose',
-		missiondesc: true,
+		apiBase: 'https://launchlibrary.net/1.2/launch?next=3&mode=verbose',
+		missiondesc: false,
 
 		//  status	Integer (1 Green, 2 Red, 3 Success, 4 Failed)
 		statusTable: {
@@ -92,7 +92,8 @@ Module.register('MMM-Rocketlaunch',{
 
 					// row 1, cell 2 rocketname and config
 					var lwstcell = document.createElement("th");
-					lwstcell.innerHTML = moment(currentLaunche.windowstart).format("D MMM") + " - " + currentLaunche.rocketconfig
+					lwstcell.innerHTML = moment(currentLaunche.windowstart).format("D MMM") +
+					" - " + currentLaunche.rocketconfig;
 					lwstcell.className = "rhtext";
 					row.appendChild(lwstcell);
 
@@ -110,9 +111,9 @@ Module.register('MMM-Rocketlaunch',{
 
 				// Launche Window start / end data
 				var lwedcell = document.createElement("td");
-				lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss")
-						+ " <i class='fa fa-arrows-h' aria-hidden='true'></i> "
-						+ moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
+				lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss") +
+				 " <i class='fa fa-arrows-h' aria-hidden='true'></i> " +
+				 moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
 				lwedcell.className = "rtext";
 				row.appendChild(lwedcell);
 
@@ -137,71 +138,73 @@ Module.register('MMM-Rocketlaunch',{
 					table.appendChild(row);
 
 						// Launchpad icon
-						var lslcell = document.createElement("td");
-						lslcell.innerHTML = "<i class='fa fa-map-marker' aria-hidden='true'></i>";
-						lslcell.className = "ricon";
-						row.appendChild(lslcell);
+						var lpicell = document.createElement("td");
+						lpicell.innerHTML = "<i class='fa fa-map-marker' aria-hidden='true'></i>";
+						lpicell.className = "ricon";
+						row.appendChild(lpicell);
 
 						// Launchpad data
-						var lsdcell = document.createElement("td");
-						lsdcell.innerHTML = currentLaunche.launchpad;
-						lsdcell.className = "rtext";
-						row.appendChild(lsdcell);
+						var lpdcell = document.createElement("td");
+						lpdcell.innerHTML = currentLaunche.launchpad;
+						lpdcell.className = "rtext";
+						row.appendChild(lpdcell);
 
 						// row 4BB
 						var row = document.createElement("tr");
 						table.appendChild(row);
 
 							//  Agencies icon
-							var lslcell = document.createElement("td");
-							lslcell.innerHTML = "<i class='fa fa-sitemap' aria-hidden='true'></i>";
-							lslcell.className = "ricon";
-							row.appendChild(lslcell);
+							var aicell = document.createElement("td");
+							aicell.innerHTML = "<i class='fa fa-sitemap' aria-hidden='true'></i>";
+							aicell.className = "ricon";
+							row.appendChild(aicell);
 
 							// Agencies data
 							var agencietext = "";
-							var lsdcell = document.createElement("td");
+
 							for (var a in currentLaunche.agencies) {
 								var currentAgencie = currentLaunche.agencies[a];
-								var agencietext = agencietext + currentAgencie.name + "<br>";
+								agencietext = agencietext + currentAgencie.name + "<br>";
 							}
-							lsdcell.innerHTML = agencietext;
-							lsdcell.className = "rtext";
-							row.appendChild(lsdcell);
+							var adcell = document.createElement("td");
+							adcell.innerHTML = agencietext;
+							adcell.className = "rtext";
+							row.appendChild(adcell);
 
 				// row 5
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
 						// Status icon
-						var rclcell = document.createElement("td");
-						rclcell.innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>";
-						rclcell.className = "ricon";
-						row.appendChild(rclcell);
+						var sicell = document.createElement("td");
+						sicell.innerHTML = "<i class='fa fa-check-circle-o' aria-hidden='true'></i>";
+						sicell.className = "ricon";
+						row.appendChild(sicell);
 
 						// Status data
-						var rcdcell = document.createElement("td");
-						rcdcell.innerHTML = this.config.statusTable[currentLaunche.status];
-						rcdcell.className = "rtext";
-						row.appendChild(rcdcell);
+						var sdcell = document.createElement("td");
+						sdcell.innerHTML = this.config.statusTable[currentLaunche.status];
+						sdcell.className = "rtext";
+						row.appendChild(sdcell);
 
 				// row 6
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
 						// mission name label
-						var mnlcell = document.createElement("td");
-						mnlcell.innerHTML = "<i class='fa fa-info-circle' aria-hidden='true'></i>";
-						mnlcell.className = "ricon";
-						row.appendChild(mnlcell);
+						var mnicell = document.createElement("td");
+						mnicell.innerHTML = "<i class='fa fa-info-circle' aria-hidden='true'></i>";
+						mnicell.className = "ricon";
+						row.appendChild(mnicell);
 
-						// row 6, cell 2 - mission name data
+						// mission name data
 						var mndcell = document.createElement("td");
-						mndcell.innerHTML = currentLaunche.payloadname + " (" + currentLaunche.payloadtype + " payload)";
+						mndcell.innerHTML = currentLaunche.payloadname + " (" +
+						currentLaunche.payloadtype + " payload)";
 						mndcell.className = "rtext";
 						row.appendChild(mndcell);
 
-console.log(this.config.missiondesc);
+
 				// row 8
 				if (this.config.missiondesc) {
 
@@ -223,8 +226,6 @@ console.log(this.config.missiondesc);
 
 				wrapper.appendChild(table);
 		}
-
-		wrapper.appendChild(table);
 
 		return wrapper;
 	},
