@@ -4,25 +4,30 @@
 
 .rhicon {
 	vertical-align:top;
-	padding: 25px 5px 5px 10px;
+	padding: 3px 5px 3px 10px;
 }
 
 .rhtext {
 	vertical-align:top;
 	font-weight:bold;
 	text-align:left;
-	padding: 25px 5px 5px 10px;
+  background-color:#343434;
+	padding: 3px 5px 3px 10px;
 }
 
 .ricon {
 	vertical-align:top;
-	padding: 0px 5px 5px 10px;
+	padding: 3px 5px 3px 10px;
 }
 
 .rtext {
 	vertical-align:top;
 	text-align:left;
-	padding: 0px 5px 5px 10px;
+	padding: 3px 5px 3px 10px;
+}
+
+.empty{
+  padding: 25px;
 }
 
 

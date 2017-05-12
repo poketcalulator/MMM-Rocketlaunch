@@ -18,8 +18,10 @@ Module.register('MMM-Rocketlaunch',{
 		lang: config.language,
 		initialLoadDelay: 0, // 0 seconds delay
 		retryDelay: 1000,
-		apiBase: 'https://launchlibrary.net/1.2/launch?next=3&mode=verbose',
-		missiondesc: false,
+		apiBase: 'https://launchlibrary.net/1.2/launch?next=',
+		apiParmVerbose: '&mode=verbose',
+		missiondesc: true,
+		launches: "1",
 
 		//  status	Integer (1 Green, 2 Red, 3 Success, 4 Failed)
 		statusTable: {
@@ -223,6 +225,21 @@ Module.register('MMM-Rocketlaunch',{
 						mddcell.className = "rtext";
 						row.appendChild(mddcell);
 				}
+
+				var row = document.createElement("tr");
+				table.appendChild(row);
+
+						// empty cell1
+						var emptycell1 = document.createElement("td");
+						// emptycell1.innerHTML = "";
+						emptycell1.className = "empty";
+						row.appendChild(emptycell1);
+
+						// empty cell2
+						var emptycell2 = document.createElement("td");
+						// emptycell2.innerHTML = "";
+						emptycell2.className = "empty";
+						row.appendChild(emptycell2);
 
 				wrapper.appendChild(table);
 		}

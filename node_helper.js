@@ -22,7 +22,7 @@ module.exports = NodeHelper.create({
 	getData: function() {
 		var self = this;
 		var retry = true;
-		var myUrl = this.config.apiBase
+		var myUrl = this.config.apiBase + this.config.launches + this.config.apiParmVerbose;
 		request({
 			url: myUrl,
 			method: 'GET',
