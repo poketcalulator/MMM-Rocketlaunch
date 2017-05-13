@@ -34,8 +34,8 @@ modules: [
 
   |Option|Default|Description|
   |:---|:---:|:---|
-  |`launches`|REQUIRED|Control the number of returned launches. 1-5 is a good place to start as the data is filling up, more is possible but probably not very practical.|
-  |`missiondesc`|REQUIRED|With or without long mission description. **true** Mission description. **false** No mission description.|
+  |`launches`|REQUIRED|Control the number of returned launches. 1-5 is a good place to start.|
+  |`missiondesc`|REQUIRED|With or without long mission description. **true** Mission description will be retrieved. **false** Mission description will not be retrieved. Customize to suit your needs.|
 
   ## Credits
   - To Michael Teeuw (https://magicmirror.builders)
