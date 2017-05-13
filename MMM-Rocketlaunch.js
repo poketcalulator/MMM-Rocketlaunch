@@ -12,18 +12,17 @@ Module.register('MMM-Rocketlaunch',{
 	defaults: {
 		units: config.units,
 		animationSpeed: 1000,
-		refreshInterval: 1000 * 15,
+		refreshInterval: 1000 * 60,
 		updateInterval: 1000 * 3600,
 		timeFormat: config.timeFormat,
 		lang: config.language,
-		initialLoadDelay: 0, // 0 seconds delay
+		initialLoadDelay: 0,
 		retryDelay: 1000,
 		apiBase: 'https://launchlibrary.net/1.2/launch?next=',
-		apiParmVerbose: '&mode=verbose',
-		missiondesc: true,
+			apiParmVerbose: '&mode=verbose',
+		missiondesc: false,
 		launches: "1",
 
-		//  status	Integer (1 Green, 2 Red, 3 Success, 4 Failed)
 		statusTable: {
 			"1": "Green Status",
 			"2": "Red Status",
@@ -82,17 +81,17 @@ Module.register('MMM-Rocketlaunch',{
 			var table = document.createElement("table");
 			table.className = "small thin light";
 
-					// Add row 1
+					// row 1
 					var row = document.createElement("tr");
 					table.appendChild(row);
 
-					// row 1, cell 1 rocketname and config label
+					// cell 1 rocketname and config label
 					var lwslcell = document.createElement("th");
 					lwslcell.innerHTML = "<i class='fa fa-rocket' aria-hidden='true'></i>";
 					lwslcell.className = "rhicon";
 					row.appendChild(lwslcell);
 
-					// row 1, cell 2 rocketname and config
+					// cell 2 rocketname and config data
 					var lwstcell = document.createElement("th");
 					lwstcell.innerHTML = moment(currentLaunche.windowstart).format("D MMM") +
 					" - " + currentLaunche.rocketconfig;
@@ -101,25 +100,30 @@ Module.register('MMM-Rocketlaunch',{
 
 					table.appendChild(row);
 
-			// row 3
+			// row 2
 			var row = document.createElement("tr");
 			table.appendChild(row);
 
-				// Launche Window start / end label
+				// cell 1 launche Window start / end icon
 				var lwelcell = document.createElement("td");
 				lwelcell.innerHTML = "<i class='fa fa-clock-o' aria-hidden='true'></i>";
 				lwelcell.className = "ricon";
 				row.appendChild(lwelcell);
 
-				// Launche Window start / end data
+				// cell 2 launche Window start / end data
 				var lwedcell = document.createElement("td");
-				lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss") +
-				 " <i class='fa fa-arrows-h' aria-hidden='true'></i> " +
-				 moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
+				// if start and end launche time are eq, the thre is launchewindow
+				if(currentLaunche.windowstart === currentLaunche.windowend){
+					lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss");
+				} else {
+					lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss") +
+					 " <i class='fa fa-arrows-h' aria-hidden='true'></i> " +
+					 moment(currentLaunche.windowend).format("DD-MM-YYYY HH:mm:ss");
+				}
 				lwedcell.className = "rtext";
 				row.appendChild(lwedcell);
 
-				// row 4
+				// row 3
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
@@ -135,25 +139,25 @@ Module.register('MMM-Rocketlaunch',{
 					lsdcell.className = "rtext";
 					row.appendChild(lsdcell);
 
-					// row 4AA
-					var row = document.createElement("tr");
-					table.appendChild(row);
+				// row 4
+				var row = document.createElement("tr");
+				table.appendChild(row);
 
-						// Launchpad icon
-						var lpicell = document.createElement("td");
-						lpicell.innerHTML = "<i class='fa fa-map-marker' aria-hidden='true'></i>";
-						lpicell.className = "ricon";
-						row.appendChild(lpicell);
+					// Launchpad icon
+					var lpicell = document.createElement("td");
+					lpicell.innerHTML = "<i class='fa fa-map-marker' aria-hidden='true'></i>";
+					lpicell.className = "ricon";
+					row.appendChild(lpicell);
 
-						// Launchpad data
-						var lpdcell = document.createElement("td");
-						lpdcell.innerHTML = currentLaunche.launchpad;
-						lpdcell.className = "rtext";
-						row.appendChild(lpdcell);
+					// Launchpad data
+					var lpdcell = document.createElement("td");
+					lpdcell.innerHTML = currentLaunche.launchpad;
+					lpdcell.className = "rtext";
+					row.appendChild(lpdcell);
 
-						// row 4BB
-						var row = document.createElement("tr");
-						table.appendChild(row);
+				// row 5
+				var row = document.createElement("tr");
+				table.appendChild(row);
 
 							//  Agencies icon
 							var aicell = document.createElement("td");
@@ -163,7 +167,7 @@ Module.register('MMM-Rocketlaunch',{
 
 							// Agencies data
 							var agencietext = "";
-
+							// loop for all agencies
 							for (var a in currentLaunche.agencies) {
 								var currentAgencie = currentLaunche.agencies[a];
 								agencietext = agencietext + currentAgencie.name + "<br>";
@@ -173,7 +177,7 @@ Module.register('MMM-Rocketlaunch',{
 							adcell.className = "rtext";
 							row.appendChild(adcell);
 
-				// row 5
+				// row 6
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
@@ -189,17 +193,17 @@ Module.register('MMM-Rocketlaunch',{
 						sdcell.className = "rtext";
 						row.appendChild(sdcell);
 
-				// row 6
+				// row 7
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
-						// mission name label
+						// mission payload/name + type label
 						var mnicell = document.createElement("td");
 						mnicell.innerHTML = "<i class='fa fa-info-circle' aria-hidden='true'></i>";
 						mnicell.className = "ricon";
 						row.appendChild(mnicell);
 
-						// mission name data
+						// mission payload/name + type data
 						var mndcell = document.createElement("td");
 						mndcell.innerHTML = currentLaunche.payloadname + " (" +
 						currentLaunche.payloadtype + " payload)";
@@ -226,16 +230,17 @@ Module.register('MMM-Rocketlaunch',{
 						row.appendChild(mddcell);
 				}
 
+				// row 9
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
-						// empty cell1
+						// empty cell1 / control the distance
 						var emptycell1 = document.createElement("td");
 						// emptycell1.innerHTML = "";
 						emptycell1.className = "empty";
 						row.appendChild(emptycell1);
 
-						// empty cell2
+						// empty cell1 / control the distance
 						var emptycell2 = document.createElement("td");
 						// emptycell2.innerHTML = "";
 						emptycell2.className = "empty";
