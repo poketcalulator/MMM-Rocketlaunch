@@ -4,7 +4,7 @@ This an module for the [MagicMirror](https://github.com/MichMich/MagicMirror).
 
 The module lists scheduled rocket launches, and various information regarding a launche.
 
-Information about launch time, location, launchepad, agency, status, payload, mission description.
+Information about rocket name and configuration, launch time, location, launchepad, agency, status, payload, mission description.
 
 
 ## Example
