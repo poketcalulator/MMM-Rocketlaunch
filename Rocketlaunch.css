@@ -8,11 +8,11 @@
 }
 
 .rhtext {
-	vertical-align:top;
-	font-weight:bold;
-	text-align:left;
-  background-color:#343434;
-	padding: 3px 5px 3px 10px;
+    vertical-align:top;
+    font-weight:bold;
+    text-align:left;
+    background-color:#343434;
+    padding: 3px 5px 3px 10px;
 }
 
 .ricon {
@@ -27,13 +27,18 @@
 }
 
 .empty{
-  padding: 14px;
+    padding: 14px;
 }
 
-
-/*
-td  {
-	border: 1px dashed blue;
-	padding: 10px;
+img {
+    width: 350px;
 }
-*/
+
+.imggray{
+    text-align: center;
+    filter: grayscale(100);
+}
+
+.imgcolor{
+    text-align: center;
+}

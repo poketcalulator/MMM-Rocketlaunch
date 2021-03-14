@@ -2,7 +2,7 @@
 
 /* Magic Mirror
  * Module: MMM-Rocketlaunch
- *
+ * v 1.5
  * By John Kristensen
  * MIT Licensed.
  */
@@ -12,15 +12,19 @@ Module.register('MMM-Rocketlaunch',{
 	defaults: {
 		units: config.units,
 		animationSpeed: 1000,
-		refreshInterval: 1000 * 60,
-		updateInterval: 1000 * 3600,
+		// API data is available at no cost for up to 300 requests per day
+		refreshInterval: 1000 * 900,
+		updateInterval: 1000 * 30,
 		timeFormat: config.timeFormat,
 		lang: config.language,
 		initialLoadDelay: 0,
 		retryDelay: 1000,
-		apiBase: 'https://launchlibrary.net/1.2/launch?next=',
-			apiParmVerbose: '&mode=verbose',
-		missiondesc: false,
+		// https://thespacedevs.com/llapi
+		// https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=1&format=json
+		apiBase: 'https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=',
+		apiParmVerbose: '&format=json',
+		missiondesc: true,
+		imggray: true,
 		launches: "1",
 
 		statusTable: {
@@ -112,7 +116,7 @@ Module.register('MMM-Rocketlaunch',{
 
 				// cell 2 launche Window start / end data
 				var lwedcell = document.createElement("td");
-				// if start and end launche time are eq, the thre is launchewindow
+				// If star and end window are eq, then there is no launchewindow
 				if(currentLaunche.windowstart === currentLaunche.windowend){
 					lwedcell.innerHTML = moment(currentLaunche.windowstart).format("DD-MM-YYYY HH:mm:ss");
 				} else {
@@ -166,14 +170,8 @@ Module.register('MMM-Rocketlaunch',{
 							row.appendChild(aicell);
 
 							// Agencies data
-							var agencietext = "";
-							// loop for all agencies
-							for (var a in currentLaunche.agencies) {
-								var currentAgencie = currentLaunche.agencies[a];
-								agencietext = agencietext + currentAgencie.name + "<br>";
-							}
 							var adcell = document.createElement("td");
-							adcell.innerHTML = agencietext;
+							adcell.innerHTML = currentLaunche.agencies;
 							adcell.className = "rtext";
 							row.appendChild(adcell);
 
@@ -231,18 +229,39 @@ Module.register('MMM-Rocketlaunch',{
 				}
 
 				// row 9
+				if (currentLaunche.image) {
+
+				var row = document.createElement("tr");
+				table.appendChild(row);
+
+						// image icon
+						var piccell1 = document.createElement("td");
+						piccell1.innerHTML = "<i class='fa fa-camera' aria-hidden='true'></i>";
+						piccell1.className = "ricon";
+						row.appendChild(piccell1);
+
+						// image
+						var piccell2 = document.createElement("td");
+						piccell2.innerHTML = "<img src='" + currentLaunche.image + "'>";
+						if (this.config.imggray) {
+							piccell2.className = "imggray";
+						} else {
+							piccell2.className = "imgcolor";
+						}
+						row.appendChild(piccell2);
+				}
+
+				// row 10
 				var row = document.createElement("tr");
 				table.appendChild(row);
 
 						// empty cell1 / control the distance
 						var emptycell1 = document.createElement("td");
-						// emptycell1.innerHTML = "";
 						emptycell1.className = "empty";
 						row.appendChild(emptycell1);
 
 						// empty cell1 / control the distance
 						var emptycell2 = document.createElement("td");
-						// emptycell2.innerHTML = "";
 						emptycell2.className = "empty";
 						row.appendChild(emptycell2);
 
@@ -255,28 +274,29 @@ Module.register('MMM-Rocketlaunch',{
 
 	processLaunches: function(data) {
 
-		if (!data.launches) {
+		if (!data.results) {
 			return;
 		}
 
 		this.targetlaunche = [];
 
-		for (var i in data.launches) {
+		for (var i in data.results) {
 
-			var r = data.launches[i];
+			var r = data.results[i];
 
 			this.targetlaunche.push({
-				rocketname: r.rocket.familyname,
-				rocketconfig: r.rocket.name,
-				payloadname: r.missions[0].name,
-				payloadtype: r.missions[0].typeName,
-				missiondesc: r.missions[0].description,
-				launchsite: r.location.name,
-				launchpad: r.location.pads[0].name,
-				agencies: r.location.pads[0].agencies,
-				windowstart: r.isostart,
-				windowend: r.isoend,
-				status: r.status,
+				rocketname: r.rocket.configuration.name,
+				rocketconfig: r.rocket.configuration.full_name,
+				payloadname: r.mission.name,
+				payloadtype: r.mission.type,
+				missiondesc: r.mission.description,
+				launchsite: r.pad.location.country_code,
+				launchpad: r.pad.location.name,
+				agencies: r.launch_service_provider.name,
+				windowstart: r.window_start,
+				windowend: r.window_end,
+				status: r.status.id,
+				image: r.image,
 			});
 		}
 		return;
