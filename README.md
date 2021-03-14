@@ -1,4 +1,5 @@
 # MMM-Rocketlaunch
+# V 1.5
 
 This an module for the [MagicMirror](https://github.com/MichMich/MagicMirror).
 
@@ -8,8 +9,7 @@ Information about rocket name and configuration, launch time, location, launchep
 
 
 ## Example
-![Example](https://github.com/poketcalulator/MMM-Rocketlaunch/blob/master/Example/Example01.png)
-![Example](https://github.com/poketcalulator/MMM-Rocketlaunch/blob/master/Example/Example02.png)
+![Example](https://github.com/poketcalulator/MMM-Rocketlaunch/blob/master/Example/Example03.png)
 
 ## Installation
 Open a terminal session, navigate to your MagicMirror's `modules` folder and execute `git clone https://github.com/poketcalulator/MMM-Rocketlaunch.git`, a new folder called MMM-Rocketlaunch will be created.
